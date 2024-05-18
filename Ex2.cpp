@@ -54,14 +54,11 @@ public:
     lanes_ = lanes;
   }
 
-  // Метод для сравнения двух дорог по длине
-  bool operator<(const Road& other) const {
-    return length_ < other.length_;
-  }
-
-  // Метод для проверки, является ли дорога кратчайшей
-  bool isShortest() const {
-    return length_ == 0;
+  // Метод для слияния двух дорог
+  Road merge(const Road& other, const std::string& newName) const {
+    int mergedLength = length_ + other.length_;
+    int mergedLanes = std::max(lanes_, other.lanes_);
+    return Road(mergedLength, mergedLanes, newName);
   }
 };
 
@@ -70,15 +67,17 @@ int main() {
   Road road1(1000, 2, "Дорога 1");
   Road road2(1500, 3, "Дорога 2");
 
+  // Объединяем дороги
+  Road mergedRoad = road1.merge(road2, "Объединенная дорога");
+
   // Выводим информацию о дорогах
   road1.printInfo();
   std::cout << std::endl;
   road2.printInfo();
   std::cout << std::endl;
 
-  // Проверяем, является ли каждая дорога кратчайшей
-  std::cout << road1.getName() << (road1.isShortest() ? " является" : " не является") << " кратчайшей дорогой." << std::endl;
-  std::cout << road2.getName() << (road2.isShortest() ? " является" : " не является") << " кратчайшей дорогой." << std::endl;
+  // Выводим информацию о объединенной дороге
+  mergedRoad.printInfo();
 
   return 0;
 }
