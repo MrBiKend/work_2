@@ -72,6 +72,22 @@ public:
       std::cerr << "Ошибка при открытии файла для записи." << std::endl;
     }
   }
+
+  // Статический метод для загрузки информации о дороге из файла
+  static Road loadFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    if (file.is_open()) {
+      std::string name;
+      int length, lanes;
+      std::getline(file, name);
+      file >> length >> lanes;
+      file.close();
+      return Road(length, lanes, name);
+    } else {
+      std::cerr << "Ошибка при открытии файла для чтения." << std::endl;
+      return Road();
+    }
+  }
 };
 
 int main() {
@@ -80,6 +96,12 @@ int main() {
 
   // Сохраняем информацию о дороге в файл
   road.saveToFile("road.txt");
+
+  // Загружаем информацию о дороге из файла
+  Road loadedRoad = Road::loadFromFile("road.txt");
+
+  // Выводим информацию о загруженной дороге
+  loadedRoad.printInfo();
 
   return 0;
 }
