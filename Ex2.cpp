@@ -36,6 +36,13 @@ public:
   std::string getName() const {
     return name_;
   }
+
+  // Метод для вывода информации о дороге
+  void printInfo() const {
+    std::cout << "Дорога \"" << name_ << "\":" << std::endl;
+    std::cout << "Длина: " << length_ << " м" << std::endl;
+    std::cout << "Количество полос: " << lanes_ << std::endl;
+  }
 };
 
 int main() {
@@ -56,9 +63,7 @@ int main() {
   Road road(length, lanes, name);
 
   // Выводим информацию о дороге
-  std::cout << "Дорога \"" << road.getName() << "\":" << std::endl;
-  std::cout << "Длина: " << road.getLength() << " м" << std::endl;
-  std::cout << "Количество полос: " << road.getLanes() << std::endl;
+  road.printInfo();
 
   return 0;
 }
