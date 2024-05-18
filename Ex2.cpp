@@ -59,29 +59,27 @@ public:
     return (length_ / 1000.0) * costPerKm; // Стоимость строительства всей дороги в тысячах рублей
   }
 
-  // Оператор сравнения для сравнения стоимости строительства двух дорог
-  bool operator>(const Road& other) const {
-    return calculateConstructionCost() > other.calculateConstructionCost();
+  // Метод для сохранения информации о дороге в файл
+  void saveToFile(const std::string& filename) const {
+    std::ofstream file(filename);
+    if (file.is_open()) {
+      file << name_ << std::endl;
+      file << length_ << std::endl;
+      file << lanes_ << std::endl;
+      file.close();
+      std::cout << "Информация о дороге сохранена в файл: " << filename << std::endl;
+    } else {
+      std::cerr << "Ошибка при открытии файла для записи." << std::endl;
+    }
   }
 };
 
 int main() {
-  // Создаем две дороги
-  Road road1(1000, 2, "Дорога 1");
-  Road road2(1500, 3, "Дорога 2");
+  // Создаем дорогу
+  Road road(1000, 2, "Дорога");
 
-  // Выводим информацию о дорогах
-  road1.printInfo();
-  std::cout << std::endl;
-  road2.printInfo();
-  std::cout << std::endl;
-
-  // Сравниваем стоимость строительства дорог и выводим результат
-  if (road1 > road2) {
-    std::cout << "Дорога 1 дороже для строительства." << std::endl;
-  } else {
-    std::cout << "Дорога 2 дороже для строительства." << std::endl;
-  }
+  // Сохраняем информацию о дороге в файл
+  road.saveToFile("road.txt");
 
   return 0;
 }
