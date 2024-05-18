@@ -58,17 +58,30 @@ public:
     double costPerKm = baseCostPerKm * lanes_; // Стоимость строительства за километр дороги, зависящая от количества полос
     return (length_ / 1000.0) * costPerKm; // Стоимость строительства всей дороги в тысячах рублей
   }
+
+  // Оператор сравнения для сравнения стоимости строительства двух дорог
+  bool operator>(const Road& other) const {
+    return calculateConstructionCost() > other.calculateConstructionCost();
+  }
 };
 
 int main() {
-  // Создаем дорогу
-  Road road(1000, 2, "Дорога");
+  // Создаем две дороги
+  Road road1(1000, 2, "Дорога 1");
+  Road road2(1500, 3, "Дорога 2");
 
-  // Выводим информацию о дороге
-  road.printInfo();
+  // Выводим информацию о дорогах
+  road1.printInfo();
+  std::cout << std::endl;
+  road2.printInfo();
+  std::cout << std::endl;
 
-  // Подсчитываем стоимость строительства дороги и выводим на экран
-  std::cout << "\nСтоимость строительства дороги: " << road.calculateConstructionCost() << " тыс. руб." << std::endl;
+  // Сравниваем стоимость строительства дорог и выводим результат
+  if (road1 > road2) {
+    std::cout << "Дорога 1 дороже для строительства." << std::endl;
+  } else {
+    std::cout << "Дорога 2 дороже для строительства." << std::endl;
+  }
 
   return 0;
 }
