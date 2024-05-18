@@ -58,6 +58,11 @@ public:
   bool operator<(const Road& other) const {
     return length_ < other.length_;
   }
+
+  // Метод для проверки, является ли дорога кратчайшей
+  bool isShortest() const {
+    return length_ == 0;
+  }
 };
 
 int main() {
@@ -71,12 +76,9 @@ int main() {
   road2.printInfo();
   std::cout << std::endl;
 
-  // Сравниваем дороги по длине
-  if (road1 < road2) {
-    std::cout << road1.getName() << " короче, чем " << road2.getName() << std::endl;
-  } else {
-    std::cout << road2.getName() << " короче, чем " << road1.getName() << std::endl;
-  }
+  // Проверяем, является ли каждая дорога кратчайшей
+  std::cout << road1.getName() << (road1.isShortest() ? " является" : " не является") << " кратчайшей дорогой." << std::endl;
+  std::cout << road2.getName() << (road2.isShortest() ? " является" : " не является") << " кратчайшей дорогой." << std::endl;
 
   return 0;
 }
