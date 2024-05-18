@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 
 // Класс дороги
@@ -44,40 +45,58 @@ public:
     std::cout << "Количество полос: " << lanes_ << std::endl;
   }
 
-  // Метод для изменения длины дороги
-  void setLength(int length) {
-    length_ = length;
-  }
-
-  // Метод для изменения количества полос на дороге
-  void setLanes(int lanes) {
-    lanes_ = lanes;
-  }
-
   // Метод для слияния двух дорог
   Road merge(const Road& other, const std::string& newName) const {
     int mergedLength = length_ + other.length_;
     int mergedLanes = std::max(lanes_, other.lanes_);
     return Road(mergedLength, mergedLanes, newName);
   }
+
+  // Метод для сохранения информации о дороге в файл
+  void saveToFile(const std::string& filename) const {
+    std::ofstream file(filename);
+    if (file.is_open()) {
+      file << name_ << std::endl;
+      file << length_ << std::endl;
+      file << lanes_ << std::endl;
+      file.close();
+      std::cout << "Информация о дороге сохранена в файл: " << filename << std::endl;
+    } else {
+      std::cerr << "Ошибка при открытии файла для записи." << std::endl;
+    }
+  }
+
+  // Метод для загрузки информации о дороге из файла
+  void loadFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    if (file.is_open()) {
+      std::getline(file, name_);
+      file >> length_;
+      file >> lanes_;
+      file.close();
+      std::cout << "Информация о дороге загружена из файла: " << filename << std::endl;
+    } else {
+      std::cerr << "Ошибка при открытии файла для чтения." << std::endl;
+    }
+  }
 };
 
 int main() {
-  // Создаем две дороги
-  Road road1(1000, 2, "Дорога 1");
-  Road road2(1500, 3, "Дорога 2");
+  // Создаем дорогу
+  Road road(1000, 2, "Дорога");
 
-  // Объединяем дороги
-  Road mergedRoad = road1.merge(road2, "Объединенная дорога");
+  // Сохраняем информацию о дороге в файл
+  road.saveToFile("road.txt");
 
-  // Выводим информацию о дорогах
-  road1.printInfo();
-  std::cout << std::endl;
-  road2.printInfo();
-  std::cout << std::endl;
+  // Создаем новый объект дороги
+  Road newRoad;
 
-  // Выводим информацию о объединенной дороге
-  mergedRoad.printInfo();
+  // Загружаем информацию о дороге из файла
+  newRoad.loadFromFile("road.txt");
+
+  // Выводим информацию о новой дороге
+  std::cout << "\nИнформация о новой дороге:" << std::endl;
+  newRoad.printInfo();
 
   return 0;
 }
