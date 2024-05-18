@@ -43,6 +43,16 @@ public:
     std::cout << "Длина: " << length_ << " м" << std::endl;
     std::cout << "Количество полос: " << lanes_ << std::endl;
   }
+
+  // Метод для изменения длины дороги
+  void setLength(int length) {
+    length_ = length;
+  }
+
+  // Метод для изменения количества полос на дороге
+  void setLanes(int lanes) {
+    lanes_ = lanes;
+  }
 };
 
 int main() {
@@ -63,6 +73,20 @@ int main() {
   Road road(length, lanes, name);
 
   // Выводим информацию о дороге
+  road.printInfo();
+
+  // Изменяем длину и количество полос
+  int newLength, newLanes;
+  std::cout << "Введите новую длину дороги: ";
+  std::cin >> newLength;
+  road.setLength(newLength);
+
+  std::cout << "Введите новое количество полос: ";
+  std::cin >> newLanes;
+  road.setLanes(newLanes);
+
+  // Выводим обновленную информацию о дороге
+  std::cout << "\nОбновленная информация о дороге:" << std::endl;
   road.printInfo();
 
   return 0;
