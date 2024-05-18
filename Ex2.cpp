@@ -95,6 +95,11 @@ public:
     int calculateNumberOfSections() const {
         return std::ceil(static_cast<double>(length_) / sectionLength);
     }
+
+    // Метод для расчета общей стоимости проезда по дороге
+    double calculateTollCost(double costPerUnitDistance) const {
+        return (length_ / 1000.0) * costPerUnitDistance;
+    }
 };
 
 int main() {
@@ -103,6 +108,12 @@ int main() {
 
     // Выводим информацию о дороге
     road.printInfo();
+
+    // Задаем стоимость проезда за единицу расстояния (например, за 1 км)
+    double costPerUnitDistance = 0.05; // Пусть стоимость будет 0.05 доллара за 1 км
+
+    // Рассчитываем и выводим общую стоимость проезда по дороге
+    std::cout << "Общая стоимость проезда по дороге: $" << road.calculateTollCost(costPerUnitDistance) << std::endl;
 
     return 0;
 }
