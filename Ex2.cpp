@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cmath> // Для использования функции округления (std::ceil)
 
 class Road {
 private:
@@ -8,6 +9,7 @@ private:
     int lanes_; // Количество полос на дороге
     std::string name_; // Название дороги
     static constexpr double baseCostPerKm = 10000.0; // Базовая стоимость строительства одного километра дороги
+    static constexpr int sectionLength = 100; // Длина одной секции дороги в метрах
 
 public:
     // Конструктор без параметров
@@ -78,6 +80,11 @@ public:
         double timeInHours = static_cast<double>(length_) / (speed * 1000.0 / 3600.0);
         return timeInHours;
     }
+
+    // Метод для вычисления количества необходимых секций дороги
+    int calculateNumberOfSections() const {
+        return std::ceil(static_cast<double>(length_) / sectionLength);
+    }
 };
 
 int main() {
@@ -87,11 +94,8 @@ int main() {
     // Выводим информацию о дороге
     road.printInfo();
 
-    // Задаем скорость движения (км/ч)
-    int speed = 60;
-
-    // Рассчитываем и выводим время проезда по дороге
-    std::cout << "При скорости " << speed << " км/ч время проезда по дороге составит: " << road.calculateTravelTime(speed) << " часа" << std::endl;
+    // Вычисляем и выводим количество секций дороги
+    std::cout << "Для дороги необходимо " << road.calculateNumberOfSections() << " секций." << std::endl;
 
     return 0;
 }
