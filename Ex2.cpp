@@ -53,41 +53,30 @@ public:
   void setLanes(int lanes) {
     lanes_ = lanes;
   }
+
+  // Метод для сравнения двух дорог по длине
+  bool operator<(const Road& other) const {
+    return length_ < other.length_;
+  }
 };
 
 int main() {
-  // Получаем данные о дороге
-  int length, lanes;
-  std::string name;
-  std::cout << "Введите название дороги: ";
-  std::cin.ignore();
-  std::getline(std::cin, name);
+  // Создаем две дороги
+  Road road1(1000, 2, "Дорога 1");
+  Road road2(1500, 3, "Дорога 2");
 
-  std::cout << "Введите длину дороги (в метрах): ";
-  std::cin >> length;
+  // Выводим информацию о дорогах
+  road1.printInfo();
+  std::cout << std::endl;
+  road2.printInfo();
+  std::cout << std::endl;
 
-  std::cout << "Введите количество полос: ";
-  std::cin >> lanes;
-
-  // Создаем объект дороги
-  Road road(length, lanes, name);
-
-  // Выводим информацию о дороге
-  road.printInfo();
-
-  // Изменяем длину и количество полос
-  int newLength, newLanes;
-  std::cout << "Введите новую длину дороги: ";
-  std::cin >> newLength;
-  road.setLength(newLength);
-
-  std::cout << "Введите новое количество полос: ";
-  std::cin >> newLanes;
-  road.setLanes(newLanes);
-
-  // Выводим обновленную информацию о дороге
-  std::cout << "\nОбновленная информация о дороге:" << std::endl;
-  road.printInfo();
+  // Сравниваем дороги по длине
+  if (road1 < road2) {
+    std::cout << road1.getName() << " короче, чем " << road2.getName() << std::endl;
+  } else {
+    std::cout << road2.getName() << " короче, чем " << road1.getName() << std::endl;
+  }
 
   return 0;
 }
