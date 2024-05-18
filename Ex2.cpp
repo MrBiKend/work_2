@@ -8,6 +8,7 @@ private:
   int length_; // Длина дороги в метрах
   int lanes_; // Количество полос на дороге
   std::string name_; // Название дороги
+  static constexpr double baseCostPerKm = 10000.0; // Базовая стоимость строительства одного километра дороги
 
 public:
   // Конструктор без параметров
@@ -52,32 +53,10 @@ public:
     return Road(mergedLength, mergedLanes, newName);
   }
 
-  // Метод для сохранения информации о дороге в файл
-  void saveToFile(const std::string& filename) const {
-    std::ofstream file(filename);
-    if (file.is_open()) {
-      file << name_ << std::endl;
-      file << length_ << std::endl;
-      file << lanes_ << std::endl;
-      file.close();
-      std::cout << "Информация о дороге сохранена в файл: " << filename << std::endl;
-    } else {
-      std::cerr << "Ошибка при открытии файла для записи." << std::endl;
-    }
-  }
-
-  // Метод для загрузки информации о дороге из файла
-  void loadFromFile(const std::string& filename) {
-    std::ifstream file(filename);
-    if (file.is_open()) {
-      std::getline(file, name_);
-      file >> length_;
-      file >> lanes_;
-      file.close();
-      std::cout << "Информация о дороге загружена из файла: " << filename << std::endl;
-    } else {
-      std::cerr << "Ошибка при открытии файла для чтения." << std::endl;
-    }
+  // Метод для подсчета стоимости строительства дороги
+  double calculateConstructionCost() const {
+    double costPerKm = baseCostPerKm * lanes_; // Стоимость строительства за километр дороги, зависящая от количества полос
+    return (length_ / 1000.0) * costPerKm; // Стоимость строительства всей дороги в тысячах рублей
   }
 };
 
@@ -85,18 +64,11 @@ int main() {
   // Создаем дорогу
   Road road(1000, 2, "Дорога");
 
-  // Сохраняем информацию о дороге в файл
-  road.saveToFile("road.txt");
+  // Выводим информацию о дороге
+  road.printInfo();
 
-  // Создаем новый объект дороги
-  Road newRoad;
-
-  // Загружаем информацию о дороге из файла
-  newRoad.loadFromFile("road.txt");
-
-  // Выводим информацию о новой дороге
-  std::cout << "\nИнформация о новой дороге:" << std::endl;
-  newRoad.printInfo();
+  // Подсчитываем стоимость строительства дороги и выводим на экран
+  std::cout << "\nСтоимость строительства дороги: " << road.calculateConstructionCost() << " тыс. руб." << std::endl;
 
   return 0;
 }
